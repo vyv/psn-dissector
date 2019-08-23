@@ -20,6 +20,9 @@
 -- TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 -- SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+-- Copy the Lua dissector file to the Wireshark personal plugins folder.
+-- Find this folder by looking in Help > About Wireshark > folders > Personal Lua Plugins
+-- You may need to create this folder.
 
 local p_psn = Proto("psn","PosiStageNet")
 
