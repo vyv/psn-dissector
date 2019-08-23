@@ -11,3 +11,7 @@ If you have implemented [**PosiStageNet**](https://www.posistage.net/) in your s
 # Wireshark Dissector
 
 This package contains a Wireshark dissector for the PosiStageNet protocol.
+
+# Usage
+
+Copy the Lua dissector file to the Wireshark personal plugins folder. Find this folder by looking in Help > About Wireshark > folders > Personal Lua Plugins (you may need to create this folder).
