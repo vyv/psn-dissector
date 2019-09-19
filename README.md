@@ -10,7 +10,7 @@ If you have implemented [**PosiStageNet**](https://www.posistage.net/) in your s
 
 # Wireshark Dissector
 
-This package contains a Wireshark dissector for the PosiStageNet protocol.
+This package contains a Wireshark dissector for the PosiStageNet protocol. The plugin was initially developped by [**TAIT**](http://www.taittowers.com/), and later updated by [**VYV**](https://www.vyv.ca/).
 
 # Usage
 
