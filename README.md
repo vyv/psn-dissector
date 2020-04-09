@@ -16,3 +16,5 @@ This package contains a Wireshark dissector for the PosiStageNet protocol. The p
 
 Copy the Lua dissector file to the Wireshark personal plugins folder. Find this folder by looking in  
 `Help > About Wireshark > folders > Personal Lua Plugins` (you may need to create this folder).
+
+Note: By default, only the packets sent to the address 236.10.10.10/56565 will be decoded as PSN packets. To decode packets from another address/port, right-click on a packet and select "Decode As...". In the "Current" column, select "PSN".
