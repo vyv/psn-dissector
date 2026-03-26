@@ -101,9 +101,26 @@ local pf_system_name = ProtoField.new("System Name", "psn.system_name", ftypes.S
 local pf_tracker_id = ProtoField.new("Tracker ID", "psn.tracker_id", ftypes.UINT16, nil, base.DEC)
 local pf_tracker_name = ProtoField.new("Tracker Name", "psn.tracker_name", ftypes.STRING, nil)
 
-local pf_vector_x = ProtoField.new("X", "psn.vector_x", ftypes.FLOAT, nil)
-local pf_vector_y = ProtoField.new("Y", "psn.vector_y", ftypes.FLOAT, nil)
-local pf_vector_z = ProtoField.new("Z", "psn.vector_z", ftypes.FLOAT, nil)
+local pf_vector_x_pos = ProtoField.new("X_POS", "psn.vector_x_pos", ftypes.FLOAT, nil)
+local pf_vector_y_pos = ProtoField.new("Y_POS", "psn.vector_y_pos", ftypes.FLOAT, nil)
+local pf_vector_z_pos = ProtoField.new("Z_POS", "psn.vector_z_pos", ftypes.FLOAT, nil)
+
+local pf_vector_x_speed = ProtoField.new("X_SPEED", "psn.vector_x_speed", ftypes.FLOAT, nil)
+local pf_vector_y_speed = ProtoField.new("Y_SPEED", "psn.vector_y_speed", ftypes.FLOAT, nil)
+local pf_vector_z_speed = ProtoField.new("Z_SPEED", "psn.vector_z_speed", ftypes.FLOAT, nil)
+
+local pf_vector_x_ori = ProtoField.new("X_ORI", "psn.vector_x_ori", ftypes.FLOAT, nil)
+local pf_vector_y_ori = ProtoField.new("Y_ORI", "psn.vector_y_ori", ftypes.FLOAT, nil)
+local pf_vector_z_ori = ProtoField.new("Z_ORI", "psn.vector_z_ori", ftypes.FLOAT, nil)
+
+local pf_vector_x_accel = ProtoField.new("X_ACCEL", "psn.vector_x_accel", ftypes.FLOAT, nil)
+local pf_vector_y_accel = ProtoField.new("Y_ACCEL", "psn.vector_y_accel", ftypes.FLOAT, nil)
+local pf_vector_z_accel = ProtoField.new("Z_ACCEL", "psn.vector_z_accel", ftypes.FLOAT, nil)
+
+local pf_vector_x_trgtpos = ProtoField.new("X_TRGTPOS", "psn.vector_x_trgtpos", ftypes.FLOAT, nil)
+local pf_vector_y_trgtpos = ProtoField.new("Y_TRGTPOS", "psn.vector_y_trgtpos", ftypes.FLOAT, nil)
+local pf_vector_z_trgtpos = ProtoField.new("Z_TRGTPOS", "psn.vector_z_trgtpos", ftypes.FLOAT, nil)
+
 local pf_status = ProtoField.new("Status", "psn.status", ftypes.FLOAT, nil)
 
 local pf_unknown = ProtoField.new("Unknown", "psn.unknown", ftypes.UINT8, nil)
@@ -123,7 +140,11 @@ p_psn.fields = {pf_base_chunk_id, pf_info_chunk_id, pf_data_chunk_id, pf_tracker
                     pf_data_field, pf_data_len, pf_sub_chunks, pf_children,
                     pf_timestamp, pf_version_high, pf_version_low, pf_frame_id, pf_frame_packet_count,
                     pf_system_name, pf_tracker_id, pf_tracker_name,
-                    pf_vector_x, pf_vector_y, pf_vector_z, pf_status,
+                    pf_vector_x_pos, pf_vector_y_pos, pf_vector_z_pos, 
+                    pf_vector_x_speed, pf_vector_y_speed, pf_vector_z_speed,
+                    pf_vector_x_ori, pf_vector_y_ori, pf_vector_z_ori,
+                    pf_vector_x_accel, pf_vector_y_accel, pf_vector_z_accel,
+                    pf_vector_x_trgtpos, pf_vector_y_trgtpos, pf_vector_z_trgtpos, pf_status,
                     pf_v1_header, pf_v1_tracker, pf_v1_position, pf_v1_velocity,
                     pf_v1_packet_counter, pf_v1_world_id, pf_v1_tracker_count, pf_v1_frame_index, pf_v1_object_state, 
                     pf_v1_info_xml,
@@ -192,14 +213,26 @@ function dissect_data_tracker_list(buf, tree)
             while child_buf do
                 chunk_id, info_buf, info_tree, child_buf = dissect_chunk(child_buf, child_tree, pf_tracker_chunk_id)
                 
-                if chunk_id == PSN_DATA_TRACKER_POS or
-                   chunk_id == PSN_DATA_TRACKER_SPEED  or
-                   chunk_id == PSN_DATA_TRACKER_ORI or
-                   chunk_id == PSN_DATA_TRACKER_ACCEL or
-                   chunk_id == PSN_DATA_TRACKER_TRGTPOS then
-                    info_tree:add_le(pf_vector_x, info_buf:range(0,4))
-                    info_tree:add_le(pf_vector_y, info_buf:range(4,4))
-                    info_tree:add_le(pf_vector_z, info_buf:range(8,4))
+                if chunk_id == PSN_DATA_TRACKER_POS then
+                    info_tree:add_le(pf_vector_x_pos, info_buf:range(0,4))
+                    info_tree:add_le(pf_vector_y_pos, info_buf:range(4,4))
+                    info_tree:add_le(pf_vector_z_pos, info_buf:range(8,4))
+                elseif chunk_id == PSN_DATA_TRACKER_SPEED then
+                    info_tree:add_le(pf_vector_x_speed, info_buf:range(0,4))
+                    info_tree:add_le(pf_vector_y_speed, info_buf:range(4,4))
+                    info_tree:add_le(pf_vector_z_speed, info_buf:range(8,4))
+                elseif chunk_id == PSN_DATA_TRACKER_ORI then
+                    info_tree:add_le(pf_vector_x_ori, info_buf:range(0,4))
+                    info_tree:add_le(pf_vector_y_ori, info_buf:range(4,4))
+                    info_tree:add_le(pf_vector_z_ori, info_buf:range(8,4))
+                elseif chunk_id == PSN_DATA_TRACKER_ACCEL then
+                    info_tree:add_le(pf_vector_x_accel, info_buf:range(0,4))
+                    info_tree:add_le(pf_vector_y_accel, info_buf:range(4,4))
+                    info_tree:add_le(pf_vector_z_accel, info_buf:range(8,4))
+                elseif chunk_id == PSN_DATA_TRACKER_TRGTPOS then
+                    info_tree:add_le(pf_vector_x_trgtpos, info_buf:range(0,4))
+                    info_tree:add_le(pf_vector_y_trgtpos, info_buf:range(4,4))
+                    info_tree:add_le(pf_vector_z_trgtpos, info_buf:range(8,4))
                 elseif chunk_id == PSN_DATA_TRACKER_STATUS then
                     info_tree:add_le(pf_status, info_buf:range(0,4))
                 elseif chunk_id == PSN_DATA_TRACKER_TIMESTAMP then
